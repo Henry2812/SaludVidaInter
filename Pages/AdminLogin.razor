@@ -1,0 +1,72 @@
+@page "/admin/login"
+@layout StoreLayout
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
+<main class="login-page">
+    <section class="login-card">
+        <img src="assets/logo-salud-vida.jpeg" alt="Salud y Vida Internacional" />
+        <span class="login-kicker">Acceso privado</span>
+        <h1>Panel administrativo</h1>
+        <p>Inicia sesion para gestionar productos, marca y configuracion de la PWA.</p>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            <div class="login-error">@ErrorMessage</div>
+        }
+
+        <form class="login-form" @onsubmit="LoginAsync" @onsubmit:preventDefault="true">
+            <div class="field">
+                <label for="email">Correo</label>
+                <input id="email" class="form-input" type="email" @bind="LoginModel.Email" autocomplete="username" />
+            </div>
+
+            <div class="field">
+                <label for="password">Contrasena</label>
+                <input id="password" class="form-input" type="password" @bind="LoginModel.Password" autocomplete="current-password" />
+            </div>
+
+            <button class="login-button" type="submit">Entrar al admin</button>
+        </form>
+
+        <NavLink class="store-link" href="/">Volver a la tienda</NavLink>
+
+        <div class="dev-credentials">
+            <strong>Supabase Auth:</strong>
+            <span>Usa un usuario creado en Authentication &gt; Users.</span>
+        </div>
+    </section>
+</main>
+
+@code {
+    private LoginForm LoginModel { get; } = new();
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await AuthService.IsAuthenticatedAsync())
+        {
+            NavigationManager.NavigateTo("/admin", replace: true);
+        }
+    }
+
+    private async Task LoginAsync()
+    {
+        ErrorMessage = string.Empty;
+        var result = await AuthService.LoginAsync(LoginModel.Email, LoginModel.Password);
+
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/admin", replace: true);
+            return;
+        }
+
+        ErrorMessage = result.ErrorMessage ?? "No se pudo iniciar sesion.";
+    }
+
+    private sealed class LoginForm
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+}

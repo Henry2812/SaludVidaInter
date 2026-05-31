@@ -1,0 +1,35 @@
+@inherits LayoutComponentBase
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+
+@if (IsCheckingSession)
+{
+    <div class="admin-loading">Validando sesion...</div>
+}
+else
+{
+    <div class="admin-layout">
+        <AdminSidebar />
+        <main class="admin-main">
+            <AdminTopBar />
+            @Body
+        </main>
+    </div>
+}
+
+@code {
+    private bool IsCheckingSession { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var isAuthenticated = await AuthService.IsAuthenticatedAsync();
+
+        if (!isAuthenticated)
+        {
+            NavigationManager.NavigateTo("/admin/login", replace: true);
+            return;
+        }
+
+        IsCheckingSession = false;
+    }
+}

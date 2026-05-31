@@ -1,0 +1,16 @@
+<div class="chips" aria-label="Categorias">
+    @foreach (var category in Categories)
+    {
+        <button class="chip @(SelectedCategory == category ? "active" : null)"
+                type="button"
+                @onclick="() => SelectedCategoryChanged.InvokeAsync(category)">
+            @category
+        </button>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<string> Categories { get; set; } = [];
+    [Parameter, EditorRequired] public string SelectedCategory { get; set; } = "Todos";
+    [Parameter] public EventCallback<string> SelectedCategoryChanged { get; set; }
+}

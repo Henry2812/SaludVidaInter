@@ -1,0 +1,156 @@
+.panel {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--panel);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+}
+
+.toolbar {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.search-wrap {
+    position: relative;
+}
+
+.search-wrap .icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.search-input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0 14px 0 68px;
+    background: white;
+    color: var(--ink);
+    outline: none;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.product-table th {
+    padding: 15px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 0.72rem;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.product-table td {
+    padding: 15px;
+    border-top: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.product-thumb {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #e2e8f0;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-name {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 900;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    padding: 0 9px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.badge.ok {
+    background: #dcfce7;
+    color: #059669;
+}
+
+.badge.warn {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.actions-row {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-button {
+    display: inline-grid;
+    place-items: center;
+    min-width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 12px;
+    background: white;
+    color: #94a3b8;
+    font-weight: 900;
+}
+
+.icon-button:hover {
+    background: #ecfdf5;
+    color: var(--brand);
+}
+
+.icon-button.danger:hover {
+    background: #fef2f2;
+    color: var(--danger);
+}
+
+@media (max-width: 940px) {
+    .product-table,
+    .product-table thead,
+    .product-table tbody,
+    .product-table tr,
+    .product-table th,
+    .product-table td {
+        display: block;
+    }
+
+    .product-table thead {
+        display: none;
+    }
+
+    .product-table tr {
+        padding: 14px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .product-table td {
+        padding: 8px 0;
+        border: 0;
+    }
+}

@@ -1,0 +1,60 @@
+@page "/admin/personalizar"
+@layout AdminLayout
+@inject IAppearanceService AppearanceService
+
+<section class="view appearance-grid">
+    <div>
+        <div class="section-title">
+            <h2>Personalizacion de Marca</h2>
+            <p>Cambia el estilo visual de tu app. Por ahora se guarda en memoria.</p>
+        </div>
+
+        <div class="panel settings-card">
+            <div class="field">
+                <label for="businessName">Nombre Comercial</label>
+                <input id="businessName" class="form-input" type="text" @bind="Settings.BusinessName" />
+            </div>
+
+            <div class="field">
+                <label for="brandColor">Color de Marca</label>
+                <div class="color-box">
+                    <input id="brandColor" type="color" @bind="Settings.PrimaryColor" />
+                    <div>
+                        <strong>@Settings.PrimaryColor</strong>
+                        <p>Este color define el header, botones y acentos.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="bannerText">Mensaje Promocional</label>
+                <textarea id="bannerText" class="form-textarea" @bind="Settings.BannerText"></textarea>
+            </div>
+
+            <button class="dark-button" type="button" @onclick="Save">Guardar Configuracion</button>
+        </div>
+    </div>
+
+    <BrandPreview />
+</section>
+
+@code {
+    private AppearanceSettings Settings { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        Settings = new AppearanceSettings
+        {
+            PrimaryColor = AppearanceService.Current.PrimaryColor,
+            BusinessName = AppearanceService.Current.BusinessName,
+            Slogan = AppearanceService.Current.Slogan,
+            BannerText = AppearanceService.Current.BannerText,
+            LogoUrl = AppearanceService.Current.LogoUrl
+        };
+    }
+
+    private void Save()
+    {
+        AppearanceService.Update(Settings);
+    }
+}

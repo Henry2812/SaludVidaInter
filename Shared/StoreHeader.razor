@@ -1,0 +1,35 @@
+@inject IAppearanceService AppearanceService
+@inject CartService CartService
+
+@implements IDisposable
+
+<header class="store-header">
+    <div class="store-header-inner">
+        <NavLink class="store-back" href="/admin/productos">Admin</NavLink>
+        <img class="store-logo" src="@AppearanceService.Current.LogoUrl" alt="@AppearanceService.Current.BusinessName" />
+        <div class="store-actions">
+            <div class="store-bag" aria-label="Carrito">
+                <span>Bolsa</span>
+                <strong>Carrito</strong>
+                @if (CartService.Count > 0)
+                {
+                    <span class="cart-count">@CartService.Count</span>
+                }
+            </div>
+        </div>
+    </div>
+</header>
+
+@code {
+    protected override void OnInitialized()
+    {
+        CartService.Changed += StateHasChanged;
+        AppearanceService.Changed += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        CartService.Changed -= StateHasChanged;
+        AppearanceService.Changed -= StateHasChanged;
+    }
+}

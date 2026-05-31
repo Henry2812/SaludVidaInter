@@ -1,0 +1,11 @@
+.storefront {
+    min-height: 100vh;
+    padding-bottom: 0;
+    background: #f5f8fb;
+}
+
+@media (max-width: 520px) {
+    .storefront {
+        padding-bottom: 76px;
+    }
+}

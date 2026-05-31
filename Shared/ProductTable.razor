@@ -1,0 +1,67 @@
+<div class="panel">
+    <div class="toolbar">
+        <div class="search-wrap">
+            <span class="icon">Buscar</span>
+            <input class="search-input" type="search" placeholder="Buscar en el inventario..." />
+        </div>
+    </div>
+
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>Detalle Producto</th>
+                <th>Categoria</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Products)
+            {
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <div class="product-thumb">
+                                <img src="@product.ImageUrl" alt="@product.Name" />
+                            </div>
+                            <div>
+                                <span class="product-name">@product.Name</span>
+                                <span class="badge @GetBadgeClass(product.Status)">@GetStatusText(product.Status)</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>@product.Category</td>
+                    <td><strong>@product.Price.ToString("C")</strong></td>
+                    <td>@product.Stock unidades</td>
+                    <td>
+                        <div class="actions-row">
+                            <button class="icon-button" type="button" @onclick="() => OnEdit.InvokeAsync(product)">Edit</button>
+                            <button class="icon-button danger" type="button" @onclick="() => ConfirmDeleteAsync(product)">X</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public IReadOnlyList<Product> Products { get; set; } = [];
+    [Parameter] public EventCallback<Product> OnEdit { get; set; }
+    [Parameter] public EventCallback<Product> OnDelete { get; set; }
+
+    private static string GetBadgeClass(ProductStatus status) => status == ProductStatus.Active ? "ok" : "warn";
+
+    private static string GetStatusText(ProductStatus status) => status switch
+    {
+        ProductStatus.Active => "Activo",
+        ProductStatus.LowStock => "Bajo Stock",
+        _ => "Inactivo"
+    };
+
+    private async Task ConfirmDeleteAsync(Product product)
+    {
+        await OnDelete.InvokeAsync(product);
+    }
+}

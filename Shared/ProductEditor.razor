@@ -1,0 +1,151 @@
+@inject IProductService ProductService
+
+<div class="modal-backdrop">
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="product-editor-title">
+        <div class="modal-head">
+            <div>
+                <span>Inventario</span>
+                <h2 id="product-editor-title">@(IsEdit ? "Editar producto" : "Nuevo producto")</h2>
+            </div>
+            <button class="close-button" type="button" @onclick="OnCancel">X</button>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            <div class="error-message">@ErrorMessage</div>
+        }
+
+        <form class="product-form" @onsubmit="SaveAsync" @onsubmit:preventDefault="true">
+            <div class="image-preview">
+                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="Imagen actual de @Model.Name" />
+                }
+                else
+                {
+                    <span>Sin imagen</span>
+                }
+            </div>
+
+            <div class="field">
+                <label for="image">Foto del producto</label>
+                <InputFile id="image" OnChange="HandleImageSelected" accept="image/*" />
+                <small>Maximo recomendado: 5 MB.</small>
+            </div>
+
+            <div class="field">
+                <label for="name">Titulo</label>
+                <input id="name" class="form-input" type="text" @bind="Model.Name" required />
+            </div>
+
+            <div class="field">
+                <label for="description">Descripcion</label>
+                <textarea id="description" class="form-textarea" @bind="Model.Description" required></textarea>
+            </div>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="category">Categoria</label>
+                    <input id="category" class="form-input" type="text" @bind="Model.Category" required />
+                </div>
+
+                <div class="field">
+                    <label for="status">Estado</label>
+                    <select id="status" class="form-input" @bind="Model.Status">
+                        <option value="@ProductStatus.Active">Activo</option>
+                        <option value="@ProductStatus.LowStock">Bajo Stock</option>
+                        <option value="@ProductStatus.Inactive">Inactivo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="field">
+                    <label for="price">Precio</label>
+                    <input id="price" class="form-input" type="number" step="0.01" min="0" @bind="Model.Price" required />
+                </div>
+
+                <div class="field">
+                    <label for="stock">Stock</label>
+                    <input id="stock" class="form-input" type="number" min="0" @bind="Model.Stock" required />
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="secondary-button" type="button" @onclick="OnCancel">Cancelar</button>
+                <button class="save-button" type="submit" disabled="@IsSaving">
+                    @(IsSaving ? "Guardando..." : "Guardar producto")
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
+
+@code {
+    [Parameter] public Product? Product { get; set; }
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnSaved { get; set; }
+
+    private ProductEditModel Model { get; set; } = new();
+    private IBrowserFile? SelectedImage { get; set; }
+    private string ErrorMessage { get; set; } = string.Empty;
+    private bool IsSaving { get; set; }
+    private bool IsEdit => Product is not null;
+
+    protected override void OnParametersSet()
+    {
+        Model = Product is null
+            ? new ProductEditModel()
+            : new ProductEditModel
+            {
+                Id = Product.Id,
+                Name = Product.Name,
+                Description = Product.Description,
+                Category = Product.Category,
+                Price = Product.Price,
+                Stock = Product.Stock,
+                Status = Product.Status,
+                ImageUrl = Product.ImageUrl
+            };
+    }
+
+    private void HandleImageSelected(InputFileChangeEventArgs args)
+    {
+        SelectedImage = args.File;
+        ErrorMessage = string.Empty;
+    }
+
+    private async Task SaveAsync()
+    {
+        ErrorMessage = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(Model.Name) ||
+            string.IsNullOrWhiteSpace(Model.Description) ||
+            string.IsNullOrWhiteSpace(Model.Category))
+        {
+            ErrorMessage = "Completa titulo, descripcion y categoria.";
+            return;
+        }
+
+        if (!IsEdit && SelectedImage is null)
+        {
+            ErrorMessage = "Selecciona una imagen para el producto.";
+            return;
+        }
+
+        try
+        {
+            IsSaving = true;
+            await ProductService.SaveProductAsync(Model, SelectedImage);
+            await OnSaved.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"No se pudo guardar: {ex.Message}";
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+}

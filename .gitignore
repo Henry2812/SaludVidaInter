@@ -1,0 +1,22 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Build output
+dist/
+publish/
+deploy/
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Local secrets. Keep appsettings.json only if it contains public anon keys.
+appsettings.Development.json
+*.local.json

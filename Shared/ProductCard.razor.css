@@ -1,0 +1,84 @@
+.client-card {
+    overflow: hidden;
+    border: 1px solid #f1f5f9;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+}
+
+.client-image {
+    position: relative;
+    height: 210px;
+    overflow: hidden;
+}
+
+.client-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.client-add {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--brand);
+    color: white;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.20);
+}
+
+.client-info {
+    padding: 16px;
+}
+
+.client-info span {
+    display: block;
+    color: #94a3b8;
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.client-info h3 {
+    margin: 5px 0 7px;
+    overflow: hidden;
+    color: #1e293b;
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.client-info p {
+    display: -webkit-box;
+    min-height: 42px;
+    margin: 0 0 12px;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.price {
+    color: var(--brand);
+    font-weight: 900;
+}
+
+.price-row small {
+    color: #94a3b8;
+    font-weight: 800;
+}

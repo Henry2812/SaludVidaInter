@@ -1,0 +1,19 @@
+@page "/admin"
+@layout AdminLayout
+@inject IProductService ProductService
+
+<section class="view stats-grid">
+    @foreach (var stat in Stats)
+    {
+        <StatCard Label="@stat.Label" Value="@stat.Value" />
+    }
+</section>
+
+@code {
+    private IReadOnlyList<DashboardStat> Stats { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        Stats = await ProductService.GetDashboardStatsAsync();
+    }
+}

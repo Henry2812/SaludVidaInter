@@ -1,0 +1,93 @@
+@page "/admin/productos"
+@layout AdminLayout
+@inject IProductService ProductService
+@inject IJSRuntime JsRuntime
+
+<section class="view">
+    <div class="section-head">
+        <div class="section-title">
+            <h2>Catalogo de Productos</h2>
+            <p>Gestiona vitaminas, suplementos, cuidado personal y equipo medico.</p>
+        </div>
+        <button class="primary-button" type="button" @onclick="OpenCreate">+ Nuevo Producto</button>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Message))
+    {
+        <div class="notice">@Message</div>
+    }
+
+    @if (IsLoading)
+    {
+        <div class="panel-loading">Cargando productos...</div>
+    }
+    else
+    {
+        <ProductTable Products="ProductList" OnEdit="OpenEdit" OnDelete="DeleteProductAsync" />
+    }
+</section>
+
+@if (IsEditorOpen)
+{
+    <ProductEditor Product="SelectedProduct" OnCancel="CloseEditor" OnSaved="HandleSavedAsync" />
+}
+
+@code {
+    private IReadOnlyList<Product> ProductList { get; set; } = [];
+    private Product? SelectedProduct { get; set; }
+    private bool IsEditorOpen { get; set; }
+    private bool IsLoading { get; set; } = true;
+    private string Message { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProductsAsync();
+    }
+
+    private async Task LoadProductsAsync()
+    {
+        IsLoading = true;
+        ProductList = await ProductService.GetProductsAsync();
+        IsLoading = false;
+    }
+
+    private void OpenCreate()
+    {
+        SelectedProduct = null;
+        IsEditorOpen = true;
+    }
+
+    private void OpenEdit(Product product)
+    {
+        SelectedProduct = product;
+        IsEditorOpen = true;
+    }
+
+    private void CloseEditor()
+    {
+        IsEditorOpen = false;
+        SelectedProduct = null;
+    }
+
+    private async Task HandleSavedAsync()
+    {
+        CloseEditor();
+        Message = "Producto guardado correctamente.";
+        await LoadProductsAsync();
+    }
+
+    private async Task DeleteProductAsync(Product product)
+    {
+        var confirmed = await JsRuntime.InvokeAsync<bool>("confirm", $"Eliminar {product.Name}?");
+
+        if (!confirmed)
+        {
+            return;
+        }
+
+        Message = string.Empty;
+        await ProductService.DeleteProductAsync(product.Id);
+        Message = "Producto eliminado correctamente.";
+        await LoadProductsAsync();
+    }
+}

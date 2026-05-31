@@ -1,0 +1,77 @@
+@page "/"
+@page "/home"
+@layout StoreLayout
+@inject IProductService ProductService
+@inject IAppearanceService AppearanceService
+
+<StoreHeader />
+
+<main class="store-main">
+    <section class="store-hero">
+        <div class="store-hero-copy">
+            <span class="store-kicker">Catalogo de salud</span>
+            <h1>Medicamentos, vitaminas y productos de cuidado en un solo lugar</h1>
+            <p>@AppearanceService.Current.Slogan</p>
+            <div class="store-search">
+                <span class="icon">Buscar</span>
+                <input type="search" placeholder="Busca vitaminas, suplementos, botiquin..." @bind="SearchText" @bind:event="oninput" />
+            </div>
+        </div>
+        <div class="store-hero-card">
+            <strong>Atencion confiable</strong>
+            <span>Productos seleccionados para bienestar diario, cuidado familiar y apoyo preventivo.</span>
+        </div>
+    </section>
+
+    <div class="store-promo">@AppearanceService.Current.BannerText</div>
+
+    <section class="store-products">
+        <div class="store-section-head">
+            <div>
+                <span class="store-kicker">Compra rapida</span>
+                <h2>Productos destacados</h2>
+            </div>
+            <CategoryFilter Categories="Categories"
+                            SelectedCategory="SelectedCategory"
+                            SelectedCategoryChanged="OnCategoryChanged" />
+        </div>
+
+        <div class="store-grid">
+            @foreach (var product in FilteredProducts)
+            {
+                <ProductCard Product="product" />
+            }
+        </div>
+    </section>
+</main>
+
+<nav class="mobile-tabs" aria-label="Cliente">
+    <button class="tab-item active" type="button">Inicio<span>Inicio</span></button>
+    <button class="tab-item" type="button">Cat<span>Catalogo</span></button>
+    <button class="tab-item" type="button">Bolsa<span>Carrito</span></button>
+</nav>
+
+@code {
+    private IReadOnlyList<Product> Products { get; set; } = [];
+    private IReadOnlyList<string> Categories { get; set; } = [];
+    private string SelectedCategory { get; set; } = "Todos";
+    private string SearchText { get; set; } = string.Empty;
+
+    private IEnumerable<Product> FilteredProducts =>
+        Products
+            .Where(product => SelectedCategory == "Todos" || product.Category == SelectedCategory)
+            .Where(product => string.IsNullOrWhiteSpace(SearchText) ||
+                              product.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                              product.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await ProductService.GetProductsAsync();
+        Categories = await ProductService.GetCategoriesAsync();
+    }
+
+    private void OnCategoryChanged(string category)
+    {
+        SelectedCategory = category;
+    }
+}

@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "dotnet publish SaludVidaPwa.csproj -c Release -o publish && xcopy publish\\wwwroot deploy\\ /E /I /Y"
+  }
+}

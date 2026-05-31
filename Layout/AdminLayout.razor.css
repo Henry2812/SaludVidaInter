@@ -1,0 +1,29 @@
+.admin-layout {
+    display: grid;
+    grid-template-columns: 256px minmax(0, 1fr);
+    min-height: 100vh;
+    background: var(--soft);
+}
+
+.admin-main {
+    min-width: 0;
+    padding: 28px;
+}
+
+.admin-loading {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    color: var(--muted);
+    font-weight: 900;
+}
+
+@media (max-width: 940px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-main {
+        padding: 18px;
+    }
+}

@@ -1,0 +1,26 @@
+@inject CartService CartService
+
+<article class="client-card">
+    <div class="client-image">
+        <img src="@Product.ImageUrl" alt="@Product.Name" />
+        <button class="client-add" type="button" @onclick="AddToCart" aria-label="Agregar @Product.Name">+</button>
+    </div>
+    <div class="client-info">
+        <span>@Product.Category</span>
+        <h3>@Product.Name</h3>
+        <p>@Product.Description</p>
+        <div class="price-row">
+            <div class="price">@Product.Price.ToString("C")</div>
+            <small>@Product.Stock disp.</small>
+        </div>
+    </div>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public Product Product { get; set; } = default!;
+
+    private void AddToCart()
+    {
+        CartService.Add(Product);
+    }
+}

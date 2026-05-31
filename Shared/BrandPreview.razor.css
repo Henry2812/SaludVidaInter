@@ -1,0 +1,64 @@
+.preview-zone {
+    display: grid;
+    place-items: center;
+    min-height: 580px;
+    padding: 28px;
+    border: 4px dashed #e2e8f0;
+    border-radius: 34px;
+    background: #f1f5f9;
+    text-align: center;
+}
+
+.preview-zone p {
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.phone-mini {
+    width: 210px;
+    height: 410px;
+    overflow: hidden;
+    border: 7px solid #1e293b;
+    border-radius: 32px;
+    background: white;
+    box-shadow: var(--shadow);
+}
+
+.phone-mini-top {
+    height: 54px;
+}
+
+.mini-lines {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+}
+
+.mini-line {
+    height: 10px;
+    border-radius: 999px;
+    background: #e2e8f0;
+}
+
+.mini-tile {
+    height: 68px;
+    border-radius: 16px;
+    background: #dcfce7;
+}
+
+.ghost-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 28px;
+    padding: 0 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: white;
+    color: var(--ink);
+    font-weight: 900;
+    text-decoration: none;
+}

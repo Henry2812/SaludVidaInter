@@ -1,0 +1,23 @@
+.chips {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.chip {
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 9px 15px;
+    background: white;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 900;
+}
+
+.chip.active {
+    border-color: #0f172a;
+    background: #0f172a;
+    color: white;
+}
