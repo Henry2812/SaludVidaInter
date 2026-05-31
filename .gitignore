@@ -12,6 +12,8 @@ obj/
 dist/
 publish/
 deploy/
+.dotnet/
+dotnet-install.sh
 
 # OS files
 Thumbs.db
