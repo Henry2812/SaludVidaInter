@@ -77,3 +77,32 @@ img {
         transform: translateY(0);
     }
 }
+/* Estilo base para todos tus botones de navegación */
+.nav-button {
+    display: block; /* Hace que ocupe el ancho disponible o actúe como bloque */
+    padding: 12px 16px; /* Espaciado interno para que parezca un botón real */
+    color: rgba(255, 255, 255, 0.7); /* Color de texto gris claro/semi-transparente */
+    text-decoration: none; /* ¡ESTO QUITA EL SUBRAYADO FEO! */
+    font-family: sans-serif; /* Una fuente limpia */
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px; /* Bordes redondeados modernos */
+    transition: all 0.3s ease; /* Animación suave para los cambios de color */
+    margin-bottom: 8px; /* Separación entre opciones */
+}
+
+    /* Efecto cuando pasas el mouse por encima (Hover) */
+    .nav-button:hover {
+        color: #ffffff; /* El texto se ilumina a blanco puro */
+        background-color: rgba(255, 255, 255, 0.05); /* Un sutil fondo brillante */
+        padding-left: 20px; /* Un pequeño efecto de desplazamiento hacia la derecha */
+    }
+
+    /* Estilo para la pestaña que está activa actualmente (.active) */
+    .nav-button.active {
+        color: #ffffff; /* Texto blanco brillante */
+        font-weight: 600; /* Texto un poco más grueso */
+        /* Un fondo degradado que combina con los colores azul/morado de tu logo */
+        background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%);
+        box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3); /* Sombra sutil de neón */
+    }

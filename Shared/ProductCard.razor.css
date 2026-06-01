@@ -82,3 +82,38 @@
     color: #94a3b8;
     font-weight: 800;
 }
+
+.payment-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.payment-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.stripe-link {
+    background: var(--brand);
+    color: white;
+}
+
+.paypal-link {
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+@media (max-width: 360px) {
+    .payment-links {
+        grid-template-columns: 1fr;
+    }
+}

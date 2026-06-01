@@ -1,3 +1,4 @@
+@using System.Globalization
 <div class="panel">
     <div class="toolbar">
         <div class="search-wrap">
@@ -32,7 +33,7 @@
                         </div>
                     </td>
                     <td>@product.Category</td>
-                    <td><strong>@product.Price.ToString("C")</strong></td>
+                    <td><strong>@product.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</strong></td>
                     <td>@product.Stock unidades</td>
                     <td>
                         <div class="actions-row">

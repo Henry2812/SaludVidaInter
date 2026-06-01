@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Components.Forms;
+using SaludVidaPwa.Models;
+using System.Globalization;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components.Forms;
-using SaludVidaPwa.Models;
-
+            
 namespace SaludVidaPwa.Services;
 
 public sealed class ProductService(HttpClient httpClient, IConfiguration configuration, AuthService authService) : IProductService
@@ -47,7 +48,7 @@ public sealed class ProductService(HttpClient httpClient, IConfiguration configu
         [
             new("Productos Totales", products.Count.ToString()),
             new("Unidades en Stock", products.Sum(product => product.Stock).ToString()),
-            new("Valor Inventario", stockValue.ToString("C"))
+            new("Valor Inventario", stockValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
         ];
     }
 

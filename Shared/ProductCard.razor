@@ -1,4 +1,5 @@
 @inject CartService CartService
+@using System.Globalization;
 
 <article class="client-card">
     <div class="client-image">
@@ -10,8 +11,12 @@
         <h3>@Product.Name</h3>
         <p>@Product.Description</p>
         <div class="price-row">
-            <div class="price">@Product.Price.ToString("C")</div>
+            <div class="price">@Product.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
             <small>@Product.Stock disp.</small>
+        </div>
+        <div class="payment-links">
+            <a class="stripe-link" href="https://buy.stripe.com/bJe14gcou57efjbeSO7Vm01" target="_blank" rel="noopener noreferrer">Compra aqui</a>
+            <a class="paypal-link" href="https://www.paypal.me/PagoMedicamento" target="_blank" rel="noopener noreferrer">PayPal</a>
         </div>
     </div>
 </article>
