@@ -1,5 +1,28 @@
 @inherits LayoutComponentBase
+@inject IAppearanceService AppearanceService
+@inject ThemeService ThemeService
+
+@implements IDisposable
 
 <div class="storefront">
     @Body
 </div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        AppearanceService.Changed += ApplyThemeAfterChange;
+        await ThemeService.ApplyAsync(AppearanceService.Current.PrimaryColor);
+    }
+
+    private async void ApplyThemeAfterChange()
+    {
+        await ThemeService.ApplyAsync(AppearanceService.Current.PrimaryColor);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        AppearanceService.Changed -= ApplyThemeAfterChange;
+    }
+}

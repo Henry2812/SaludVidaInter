@@ -10,11 +10,11 @@
     <section class="store-hero">
         <div class="store-hero-copy">
             <span class="store-kicker">Productos Garantizados</span>
-            <h1>Medicinas, tratamientos y cuidado personal en un solo lugar</h1>
+            <h1>Seguridad & Confianza</h1>
             <p>@AppearanceService.Current.Slogan</p>
             <div class="store-search">
                 <span class="icon">Buscar</span>
-                <input type="search" placeholder="Busca vitaminas, suplementos, botiquin..." @bind="SearchText" @bind:event="oninput" />
+                <input type="search" placeholder="CITOTEC, MISOPOSTOL, MIFEPRISTONA, PRIMOTESTON" @bind="SearchText" @bind:event="oninput" />
             </div>
         </div>
         <div class="store-hero-card">
@@ -24,6 +24,32 @@
     </section>
 
     <div class="store-promo">@AppearanceService.Current.BannerText</div>
+
+    <section class="order-steps" aria-labelledby="order-steps-title">
+        <h2 id="order-steps-title">FACIL Y SIN COMPLICACIONES</h2>
+        <div class="steps-grid">
+            <article class="step-card">
+                <h3><span>1</span> Escribenos al WhatsApp</h3>
+                <p>Solicita los medicamentos que necesitas y recibe asesoria inmediata.</p>
+            </article>
+
+            <article class="step-card">
+                <h3><span>2</span> Realiza tu pago</h3>
+                <p>Te indicamos el valor y metodos de pago disponibles.</p>
+                <strong>PAY PAL / TARJETA / ZELLE</strong>
+            </article>
+
+            <article class="step-card">
+                <h3><span>3</span> Envia tu comprobante</h3>
+                <p>Comparte la captura de tu pago y confirma tus datos de envio.</p>
+            </article>
+
+            <article class="step-card">
+                <h3><span>4</span> Recibe tu pedido CON ENVIO GRATIS</h3>
+                <p>Llevamos tus medicamentos donde nos solicites (ALTA DISCRECION) con acompanamiento en todo el proceso.</p>
+            </article>
+        </div>
+    </section>
 
     <section class="store-products">
         <div class="store-section-head">
@@ -45,11 +71,11 @@
     </section>
 </main>
 
-<nav class="mobile-tabs" aria-label="Cliente">
+@* <nav class="mobile-tabs" aria-label="Cliente">
     <button class="tab-item active" type="button"><span>Inicio</span></button>
     <button class="tab-item" type="button"><span>Catalogo</span></button>
     <button class="tab-item" type="button"><span>Carrito</span></button>
-</nav>
+</nav> *@
 
 @code {
     private IReadOnlyList<Product> Products { get; set; } = [];
@@ -62,6 +88,7 @@
             .Where(product => SelectedCategory == "Todos" || product.Category == SelectedCategory)
             .Where(product => string.IsNullOrWhiteSpace(SearchText) ||
                               product.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                              product.Description.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
                               product.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
     protected override async Task OnInitializedAsync()

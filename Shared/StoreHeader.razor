@@ -7,10 +7,11 @@
 <header class="store-header">
     <div class="store-header-inner">
         <button class="hidden-admin-trigger" type="button" @onclick="HandleClick" aria-label="Logo de Salud y Vida">
-            <img src="assets/IconC.png" alt="" />
+            @* <img src="assets/lnw3.png" alt="" /> *@
+            <img class="store-logo" src="@AppearanceService.Current.LogoUrl" alt="@AppearanceService.Current.BusinessName" />
         </button>
-        <img class="store-logo" src="@AppearanceService.Current.LogoUrl" alt="@AppearanceService.Current.BusinessName" />
-        <div class="store-actions">
+        @* <img class="store-logo" src="@AppearanceService.Current.LogoUrl" alt="@AppearanceService.Current.BusinessName" /> *@
+        @* <div class="store-actions">
             <div class="store-bag" aria-label="Carrito">
                 <span>Bolsa</span>
                 <strong>Carrito</strong>
@@ -19,7 +20,7 @@
                     <span class="cart-count">@CartService.Count</span>
                 }
             </div>
-        </div>
+        </div> *@
     </div>
 </header>
 

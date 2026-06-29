@@ -27,10 +27,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 66px;
+    /*    width: 66px;*/
     height: 66px;
     padding: 4px;
-    border: 1px solid var(--line);
+    border: 1px solid #ffffff;
     border-radius: 0;
     background: white;
     box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
@@ -91,7 +91,7 @@
     }
 
     .hidden-admin-trigger {
-        width: 65px;
+ 
         height: 65px;
     }
 

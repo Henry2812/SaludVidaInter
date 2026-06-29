@@ -1,17 +1,21 @@
-@inject IAppearanceService AppearanceService
-
 <div class="preview-zone">
     <div>
         <p>Mini Previsualizacion</p>
         <div class="phone-mini">
-            <div class="phone-mini-top" style="background:@AppearanceService.Current.PrimaryColor"></div>
+            <div class="phone-mini-top" style="background:@PrimaryColor"></div>
             <div class="mini-lines">
                 <div class="mini-line" style="width:70%"></div>
-                <div class="mini-tile"></div>
+                <div class="mini-tile" style="background:@SoftColor"></div>
                 <div class="mini-line" style="width:45%"></div>
-                <div class="mini-tile"></div>
+                <div class="mini-tile" style="background:@SoftColor"></div>
             </div>
         </div>
         <NavLink class="ghost-button" href="/">Ver tienda completa</NavLink>
     </div>
 </div>
+
+@code {
+    [Parameter] public string PrimaryColor { get; set; } = "#10b981";
+
+    private string SoftColor => $"{PrimaryColor}22";
+}

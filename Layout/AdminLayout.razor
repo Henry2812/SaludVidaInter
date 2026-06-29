@@ -1,6 +1,8 @@
 @inherits LayoutComponentBase
 @inject AuthService AuthService
+@inject IAppearanceService AppearanceService
 @inject NavigationManager NavigationManager
+@inject ThemeService ThemeService
 
 @if (IsCheckingSession)
 {
@@ -31,5 +33,6 @@ else
         }
 
         IsCheckingSession = false;
+        await ThemeService.ApplyAsync(AppearanceService.Current.PrimaryColor);
     }
 }

@@ -1,6 +1,7 @@
 @page "/admin/personalizar"
 @layout AdminLayout
 @inject IAppearanceService AppearanceService
+@inject ThemeService ThemeService
 
 <section class="view appearance-grid">
     <div>
@@ -8,6 +9,11 @@
             <h2>Personalizacion de Marca</h2>
             <p>Cambia el estilo visual de tu app. Por ahora se guarda en memoria.</p>
         </div>
+
+        @if (!string.IsNullOrWhiteSpace(SuccessMessage))
+        {
+            <div class="success-message">@SuccessMessage</div>
+        }
 
         <div class="panel settings-card">
             <div class="field">
@@ -18,7 +24,7 @@
             <div class="field">
                 <label for="brandColor">Color de Marca</label>
                 <div class="color-box">
-                    <input id="brandColor" type="color" @bind="Settings.PrimaryColor" />
+                    <input id="brandColor" type="color" value="@Settings.PrimaryColor" @oninput="PreviewColorAsync" />
                     <div>
                         <strong>@Settings.PrimaryColor</strong>
                         <p>Este color define el header, botones y acentos.</p>
@@ -35,11 +41,12 @@
         </div>
     </div>
 
-    <BrandPreview />
+    <BrandPreview PrimaryColor="@Settings.PrimaryColor" />
 </section>
 
 @code {
     private AppearanceSettings Settings { get; set; } = new();
+    private string SuccessMessage { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -53,8 +60,18 @@
         };
     }
 
-    private void Save()
+    private async Task Save()
     {
         AppearanceService.Update(Settings);
+        await ThemeService.ApplyAsync(Settings.PrimaryColor);
+        SuccessMessage = "Configuracion actualizada con exito.";
+    }
+
+    private async Task PreviewColorAsync(ChangeEventArgs args)
+    {
+        Settings.PrimaryColor = args.Value?.ToString() ?? Settings.PrimaryColor;
+        SuccessMessage = string.Empty;
+        await ThemeService.ApplyAsync(Settings.PrimaryColor);
+        StateHasChanged();
     }
 }
